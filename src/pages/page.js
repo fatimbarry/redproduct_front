@@ -4,7 +4,7 @@ import { usePathname } from 'next/navigation';
 import React, { useState, useEffect } from 'react';
 import {  Search,  Bell, User, LogOut, LayoutDashboard, Building2} from 'lucide-react';
 import styled from 'styled-components';
-import CreateHotelModal from './CreateHotelModal';
+import CreateHotelModal from './createHotelModal';
 import axios from "axios";
 
 
