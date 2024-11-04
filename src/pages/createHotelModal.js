@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { X, ImagePlus } from 'lucide-react';
 import toast from 'react-hot-toast';
 import styled from 'styled-components';
-import axios from "axios";
 
 const ModalOverlay = styled.div`
     position: fixed;

@@ -25,23 +25,6 @@ const Logo = styled.div`
   color: white;
 `;
 
-const MenuItem = styled.div`
-  padding: 12px;
-  margin: 4px 0;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  border-radius: 4px;
-  
-  &:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-  }
-  
-  ${props => props.active && `
-    background-color: rgba(255, 255, 255, 0.1);
-  `}
-`;
 
 const MainContent = styled.main`
   flex: 1;

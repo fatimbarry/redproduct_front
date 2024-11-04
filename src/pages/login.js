@@ -5,13 +5,7 @@ import styled from 'styled-components';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import { Loader } from 'lucide-react';
-const api = axios.create({
-    baseURL: 'http://localhost:5000',
-    timeout: 5000,
-    headers: {
-      'Content-Type': 'application/json'
-    }
-  });
+
 
 const Container = styled.div`
   min-height: 100vh;
@@ -155,8 +149,7 @@ export default function Login() {
   });
 
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
-
+ 
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -299,9 +292,10 @@ export default function Login() {
           </Button>
         </Form>
         <Links>
-          <a href="/reset-password">Mot de passe oublié?</a>
+          <link href="/reset-password">Mot de passe oublié?</link>
           <p>
-            Vous n'avez pas de compte?
+            
+            Don&apos;t have an account?
             <a href="/register">S'inscrire</a>
           </p>
         </Links>

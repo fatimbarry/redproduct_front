@@ -251,7 +251,7 @@ export default function Register() {
 
         <LoginPrompt>
           Vous avez déjà un compte?
-          <a href="/login">Se connecter</a>
+          <link href="/login">Se connecter</link>
         </LoginPrompt>
       </FormContainer>
     </PageContainer>
