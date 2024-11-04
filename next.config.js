@@ -6,10 +6,8 @@ const nextConfig = {
   output: 'standalone',
   images: {
     unoptimized: true,
-  },
-  experimental: {
-    appDir: false
   }
+  
 };
 
 module.exports = nextConfig;
