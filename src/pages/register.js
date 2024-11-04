@@ -1,10 +1,10 @@
-// pages/register.js
+'use client';  // Ajout de cette directive
+
 import { useState } from 'react';
-import styled from 'styled-components';
+import { useRouter } from 'next/navigation';  // Changé de 'next/router' à 'next/navigation'
 import axios from 'axios';
-import { Loader } from 'lucide-react';
-import Swal from 'sweetalert2';
 import Link from 'next/link';
+import { Loader } from 'lucide-react';
 
 const PageContainer = styled.div`
   min-height: 100vh;
@@ -142,8 +142,14 @@ const showToast = (message, type = 'success') => {
   });
 };
 
-export default function Register() {
+
+// Ajout d'un composant de redirection
+function RedirectWrapper({ children }) {
   const router = useRouter();
+  return children(router);
+}
+
+export default function Register() {
   const [formData, setFormData] = useState({
     username: '',
     email: '',
@@ -161,14 +167,13 @@ export default function Register() {
     }));
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e, router) => {
     e.preventDefault();
     setLoading(true);
     
     try {
       const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
       const response = await axios.post(`${API_URL}/api/register`, formData);
-      showToast('Inscription réussie ! Redirection...', 'success');
       setTimeout(() => {
         router.push('/login');
       }, 3000);
@@ -188,68 +193,72 @@ export default function Register() {
   };
 
   return (
-    <PageContainer>
-      <BrandContainer>
-        <Logo>
-          <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M2.66602 2.66624H29.3286V29.3288L2.66602 2.66624Z" fill="white"/>
-            <path d="M2.66602 2.66624H22.663L15.9973 15.9975L2.66602 2.66624Z" fill="black" fillOpacity="0.15"/>
-            <path d="M2.66602 2.66624H15.9973L2.66602 29.3288V2.66624Z" fill="white"/>
-          </svg>
-          <LogoText>RED PRODUCT</LogoText>
-        </Logo>
-      </BrandContainer>
+    <RedirectWrapper>
+      {(router) => (
+        <PageContainer>
+          <BrandContainer>
+            <Logo>
+              <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M2.66602 2.66624H29.3286V29.3288L2.66602 2.66624Z" fill="white"/>
+                <path d="M2.66602 2.66624H22.663L15.9973 15.9975L2.66602 2.66624Z" fill="black" fillOpacity="0.15"/>
+                <path d="M2.66602 2.66624H15.9973L2.66602 29.3288V2.66624Z" fill="white"/>
+              </svg>
+              <LogoText>RED PRODUCT</LogoText>
+            </Logo>
+          </BrandContainer>
 
-      <FormContainer>
-        <FormTitle>Inscrivez-vous en tant que Admin</FormTitle>
-        <form onSubmit={handleSubmit}>
-          <Input
-            type="text"
-            name="username"
-            placeholder="Nom"
-            value={formData.username}
-            onChange={handleChange}
-            required
-          />
-          <Input
-            type="email"
-            name="email"
-            placeholder="E-mail"
-            value={formData.email}
-            onChange={handleChange}
-            required
-          />
-          <Input
-            type="password"
-            name="password"
-            placeholder="Mot de passe"
-            value={formData.password}
-            onChange={handleChange}
-            required
-          />
-          <CheckboxContainer>
-            <input
-              type="checkbox"
-              name="acceptTerms"
-              checked={formData.acceptTerms}
-              onChange={handleChange}
-              required
-            />
-            <label>Accepter les termes et la politique</label>
-          </CheckboxContainer>
+          <FormContainer>
+            <FormTitle>Inscrivez-vous en tant que Admin</FormTitle>
+            <form onSubmit={(e) => handleSubmit(e, router)}>
+              <Input
+                type="text"
+                name="username"
+                placeholder="Nom"
+                value={formData.username}
+                onChange={handleChange}
+                required
+              />
+              <Input
+                type="email"
+                name="email"
+                placeholder="E-mail"
+                value={formData.email}
+                onChange={handleChange}
+                required
+              />
+              <Input
+                type="password"
+                name="password"
+                placeholder="Mot de passe"
+                value={formData.password}
+                onChange={handleChange}
+                required
+              />
+              <CheckboxContainer>
+                <input
+                  type="checkbox"
+                  name="acceptTerms"
+                  checked={formData.acceptTerms}
+                  onChange={handleChange}
+                  required
+                />
+                <label>Accepter les termes et la politique</label>
+              </CheckboxContainer>
 
-          {error && <div style={{ color: 'red', marginBottom: '1rem' }}>{error}</div>}
+              {error && <div style={{ color: 'red', marginBottom: '1rem' }}>{error}</div>}
 
-          <Button type="submit" disabled={loading}>
-            {loading ? <Loader className="animate-spin" size={24} /> : "S'inscrire"}
-          </Button>
-        </form>
+              <Button type="submit" disabled={loading}>
+                {loading ? <Loader className="animate-spin" size={24} /> : "S'inscrire"}
+              </Button>
+            </form>
 
-        <LoginPrompt>
-          Vous avez déjà un compte?{' '}
-          <Link href="/login">Se connecter</Link>
-        </LoginPrompt>
-      </FormContainer>
-    </PageContainer>
+            <LoginPrompt>
+              Vous avez déjà un compte?{' '}
+              <Link href="/login">Se connecter</Link>
+            </LoginPrompt>
+          </FormContainer>
+        </PageContainer>
+      )}
+    </RedirectWrapper>
   );
 }
