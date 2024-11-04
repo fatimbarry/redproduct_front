@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';  // Changé de 'next/router' à 'ne
 import axios from 'axios';
 import Link from 'next/link';
 import { Loader } from 'lucide-react';
+import styled from 'styled-components'
 
 const PageContainer = styled.div`
   min-height: 100vh;
