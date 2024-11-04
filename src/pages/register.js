@@ -142,6 +142,7 @@ const showToast = (message, type = 'success') => {
 };
 
 export default function Register() {
+  const router = useRouter();
   const [formData, setFormData] = useState({
     username: '',
     email: '',
@@ -164,33 +165,27 @@ export default function Register() {
     setLoading(true);
     
     try {
-      console.log('Données envoyées:', formData); // Log des données envoyées
-      
-      const response = await axios.post('http://localhost:5000/api/register', formData);
-      console.log('Réponse du serveur:', response.data);
+      const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+      const response = await axios.post(`${API_URL}/api/register`, formData);
       showToast('Inscription réussie ! Redirection...', 'success');
       setTimeout(() => {
-      router.push('/login');
+        router.push('/login');
       }, 3000);
     } catch (err) {
-      console.error('Erreur complète:', err); // Log de l'erreur complète
-      console.error("Message d'erreur:", err.message);
-      console.error('Réponse du serveur:', err.response); // Log de la réponse d'erreur
+      console.error('Erreur:', err);
       
       if (err.response) {
-        // Le serveur a répondu avec un statut d'erreur
         setError(`Erreur ${err.response.status}: ${err.response.data.message || 'Une erreur est survenue'}`);
       } else if (err.request) {
-        // La requête a été faite mais pas de réponse reçue
         setError('Impossible de contacter le serveur. Vérifiez votre connexion.');
       } else {
-        // Une erreur s'est produite lors de la configuration de la requête
         setError(`Erreur: ${err.message}`);
       }
     } finally {
       setLoading(false);
     }
   };
+
   return (
     <PageContainer>
       <BrandContainer>
@@ -245,13 +240,13 @@ export default function Register() {
           {error && <div style={{ color: 'red', marginBottom: '1rem' }}>{error}</div>}
 
           <Button type="submit" disabled={loading}>
-            {loading ? <Loader size={24} className="animate-spin" /> : "S'inscrire"}
+            {loading ? <Loader className="animate-spin" size={24} /> : "S'inscrire"}
           </Button>
         </form>
 
         <LoginPrompt>
-          Vous avez déjà un compte?
-          <link href="/login">Se connecter</link>
+          Vous avez déjà un compte?{' '}
+          <Link href="/login">Se connecter</Link>
         </LoginPrompt>
       </FormContainer>
     </PageContainer>
