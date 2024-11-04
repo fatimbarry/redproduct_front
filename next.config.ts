@@ -1,7 +1,12 @@
-import type { NextConfig } from "next";
+// next.config.js
 
-const nextConfig: NextConfig = {
-  /* config options here */
+const withStyledComponents = require('styled-components');
+
+const nextConfig = {
+  compiler: {
+    styledComponents: true,
+  },
 };
 
-export default nextConfig;
+module.exports = nextConfig;
+

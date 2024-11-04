@@ -1,0 +1,24 @@
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, sans-serif;
+}
+
+.colored-toast.swal2-icon-success {
+  background-color: white !important;
+}
+
+.colored-toast.swal2-icon-error {
+  background-color: #f27474 !important;
+}
+
+.colored-toast .swal2-title {
+  color: #a5dc86;
+  font-size: 1rem;
+}
