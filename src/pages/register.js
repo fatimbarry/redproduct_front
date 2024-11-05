@@ -1,4 +1,5 @@
 // pages/register.js
+import Link from 'next/link';
 import { useState } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
