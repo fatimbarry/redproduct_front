@@ -296,7 +296,7 @@ export default function Login() {
           <p>
             
             Don&apos;t have an account?
-            <a href="/register">S'inscrire</a>
+            <Link href="/register">S'inscrire</Link>
           </p>
         </Links>
       </LoginCard>
