@@ -150,7 +150,12 @@ export default function Login() {
   });
 
   const [loading, setLoading] = useState(false);
- 
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+  
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -177,16 +182,9 @@ export default function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-
-    console.log('Tentative de connexion au serveur...'); // Log de début
-
+  
     try {
-      console.log('Données envoyées:', {
-        email: formData.email,
-        password: formData.password
-      });
-
-      const response = await axios.post('http://localhost:5000/api/login', {
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/login`, {
         email: formData.email,
         password: formData.password
       }, {
@@ -195,21 +193,20 @@ export default function Login() {
         },
         withCredentials: true
       });
-
-      console.log('Réponse du serveur:', response.data);
-
-      if (response.data.token) {
+  
+      if (response.data.token && isClient) {
         localStorage.setItem('token', response.data.token);
         if (formData.rememberMe) {
           localStorage.setItem('rememberMe', 'true');
         }
       }
-
+  
       showToast('Connexion réussie !');
       
       setTimeout(() => {
         router.push('/page');
       }, 3000);
+  
 
     } catch (err) {
       console.error('Erreur détaillée:', {
@@ -247,6 +244,7 @@ export default function Login() {
       setLoading(false);
     }
 };
+if (!isClient) {
   return (
     <Container>
       <BrandContainer>
@@ -293,7 +291,7 @@ export default function Login() {
           </Button>
         </Form>
         <Links>
-          <link href="/reset-password">Mot de passe oublié?</link>
+        <Link href="/reset-password">Mot de passe oublié?</Link>
           <p>
             
             Don&apos;t have an account?
@@ -303,5 +301,6 @@ export default function Login() {
       </LoginCard>
     </Container>
   );
+}
 }  
   
